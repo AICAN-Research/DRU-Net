@@ -3,13 +3,8 @@ import os
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
+from src.utils.utils import normalize
 
-
-# explicit function to normalize array
-def normalize(x):
-    x_norm = (x-np.min(x))/(np.max(x)-np.min(x))
-
-    return x_norm
 
 names = glob.glob('/Path/To/Test/Thumbnails/*.png')
 names = [os.path.split(name)[1] for name in names]
@@ -18,7 +13,6 @@ names = [os.path.split(name)[1] for name in names]
 
 
 for name in names:
-
     print("/Path/To/images/" + name)
     FM = cv2.imread("/Path/To/Test/PWC/results/" + name)[...,1]/255
     Gr = cv2.imread("/Path/To/Test/Gradients/" + name)[...,1]/255

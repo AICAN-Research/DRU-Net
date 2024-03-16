@@ -60,14 +60,11 @@ def generate_gradients(imgPath):
     b = np.array(a)
     b *= 255.0/b.max() 
 
-
     print(type(b))
     # plt.imshow(np.array(b))
     cv2.imwrite(os.path.join(dst_dir, basename + '' + '.png'), np.array(b))
 
 
-
 for indx, f in enumerate(files):
     print(indx)
     generate_gradients(f)
-

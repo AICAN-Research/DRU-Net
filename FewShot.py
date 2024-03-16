@@ -13,19 +13,8 @@ from tensorflow.keras import optimizers
 from tensorflow.keras import layers
 from PIL import Image
 from PIL import ImageEnhance
-from MLD import multi_lens_distortion
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # Select GPU with index 0
-
-
-filenames_Tumor = next(os.walk('./Path/To/Tumor/'), (None, None, []))[2]  # [] if no file
-filenames_Normal = next(os.walk('./Path/To/Normal/'), (None, None, []))[2]  # [] if no file
-
-data = {
-    "Tumor":['./Path/To/Tumor/'+i for i in filenames_Tumor],
-    "Normal":['./Path/To/Normal/'+j for j in filenames_Normal]
-
-}
+from src.augmentation.MLD import multi_lens_distortion
+from src.models.models import embedding_model
 
 
 def load_image(image_path):
@@ -48,41 +37,42 @@ def load_image(image_path):
     # )
     return image
 
-data_images = {
-    "Tumor": data["Tumor"],
-    "Normal": data["Normal"]
-}
-
 def load_images(paths):
     return np.array([load_image(path) for path in paths])
-
-IMG_SIZE = (224, 224)
-IMG_SHAPE = IMG_SIZE + (3,)
-
-def embedding_model():
-    prev_model = tf.keras.applications.DenseNet121(input_shape=IMG_SHAPE, include_top=False, weights='imagenet')
-
-    z = tf.keras.layers.Flatten()(prev_model.output)
-    z = tf.keras.layers.Dense(32, activation="relu")(z)
-    z = tf.keras.layers.Dense(2, activation="softmax")(z)
-    return tf.keras.Model(prev_model.input, outputs=z)
-
-
-embedding_net = embedding_model()
-for layer in embedding_net.layers[:-12]:
-    layer.trainable = False
-embedding_net.compile(optimizer=optimizers.Adam(0.1), loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
-
 
 def compute_prototype(embeddings, labels):
     class_embeddings = tf.math.reduce_mean(embeddings[labels], axis=0)
     return class_embeddings
 
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # Select GPU with index 0
+
+# params
+IMG_SIZE = (224, 224, 3)
 n_shots = 2
 n_query = 3
-
 num_epochs = 100
+
+
+filenames_Tumor = next(os.walk('./Path/To/Tumor/'), (None, None, []))[2]  # [] if no file
+filenames_Normal = next(os.walk('./Path/To/Normal/'), (None, None, []))[2]  # [] if no file
+
+data = {
+    "Tumor":['./Path/To/Tumor/'+i for i in filenames_Tumor],
+    "Normal":['./Path/To/Normal/'+j for j in filenames_Normal]
+}
+
+data_images = {
+    "Tumor": data["Tumor"],
+    "Normal": data["Normal"]
+}
+
+# create embedding model and compile
+embedding_net = embedding_model(img_shape=IMG_SHAPE)
+for layer in embedding_net.layers[:-12]:
+    layer.trainable = False
+embedding_net.compile(optimizer=optimizers.Adam(0.1), loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
+
 
 best_loss = float('inf')  # Initialize best loss to infinity
 best_model_path = 'best_model.h5'  # Define path to save the best model
@@ -162,6 +152,7 @@ for epoch in range(num_epochs):
         print(f"Model saved at Epoch {epoch+1} with loss: {best_loss}")
 
 
+# convert best model to ONNX format
 best_model = tf.keras.models.load_model(best_model_path)
 
 onnx_model, _ = tf2onnx.convert.from_keras(best_model, opset=13)
