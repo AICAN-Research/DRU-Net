@@ -1,3 +1,8 @@
 numpy
 tensorflow
 pyFAST
+opencv-python
+matplotlib
+scikit-learn
+tf2onnx
+onnx
