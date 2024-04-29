@@ -1,5 +1,6 @@
 # Multi-lens Distortion
 
+
 def multi_lens_distortion(image, num_lenses, radius_range, strength_range):
     """
     Apply a smooth lens distortion effect with multiple lenses to an image.
@@ -17,12 +18,12 @@ def multi_lens_distortion(image, num_lenses, radius_range, strength_range):
     # Randomly generate lens centers within the image boundaries.
     cx = np.random.randint(0, W, size=num_lenses)
     cy = np.random.randint(0, H, size=num_lenses)
-    
-    # Initialize distorted_image to be the original image. 
+
+    # Initialize distorted_image to be the original image.
     # It will be updated as each lens is applied.
     distorted_image = np.copy(image)
     yidx, xidx = np.indices((H, W))
-    
+
     # Apply each lens.
     for i in range(num_lenses):
         # Randomly select radius and strength for the current lens within the provided ranges.
@@ -47,10 +48,10 @@ def multi_lens_distortion(image, num_lenses, radius_range, strength_range):
         distorted_x = dx * (1 - strength * scaling_factor) + cx[i]
 
         # Ensure the new indices are not out of bounds.
-        distorted_y = np.clip(distorted_y, 0, H-1).astype(int)
-        distorted_x = np.clip(distorted_x, 0, W-1).astype(int)
+        distorted_y = np.clip(distorted_y, 0, H - 1).astype(int)
+        distorted_x = np.clip(distorted_x, 0, W - 1).astype(int)
 
         # Create the distorted image by mixing original and distorted coordinates.
         distorted_image = distorted_image[distorted_y, distorted_x]
-        
+
     return distorted_image

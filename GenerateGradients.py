@@ -1,14 +1,15 @@
-import cv2
-import os
 import glob
-import tensorflow as tf
+import os
+
+import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 dst_dir = "Path/To/Gradients/Reults/"
 os.makedirs(dst_dir, exist_ok=True)
 
-files = glob.glob('Path/To/Thumbnails/*.png')
+files = glob.glob("Path/To/Thumbnails/*.png")
 # files2 = glob.glob('D:/Bergens/resized2/*.jpg')
 
 
@@ -25,8 +26,12 @@ def generate_gradients(imgPath):
     resize_factor = 1
 
     # Calculate the new height and width as tensors based on the resize factor
-    new_height = tf.cast(tf.cast(original_shape[0], tf.float32) * resize_factor, tf.int32)
-    new_width = tf.cast(tf.cast(original_shape[1], tf.float32) * resize_factor, tf.int32)
+    new_height = tf.cast(
+        tf.cast(original_shape[0], tf.float32) * resize_factor, tf.int32
+    )
+    new_width = tf.cast(
+        tf.cast(original_shape[1], tf.float32) * resize_factor, tf.int32
+    )
 
     # Resize the image to <resize_factor> of its original size if necessary
     resized_img = tf.image.resize(img, [new_height, new_width])
@@ -51,23 +56,20 @@ def generate_gradients(imgPath):
     # plt.imshow(gy[0,...,1], cmap='gray')
     # plt.imshow(direction[0,...,2], cmap='gray')
 
-    a = magnitude[0,...,1]/tf.math.reduce_max(magnitude[0,...,1])
+    a = magnitude[0, ..., 1] / tf.math.reduce_max(magnitude[0, ..., 1])
 
-    plt.axis('off')
+    plt.axis("off")
     root, ext = os.path.splitext(f)
     basename = os.path.basename(root)
 
     b = np.array(a)
-    b *= 255.0/b.max() 
-
+    b *= 255.0 / b.max()
 
     print(type(b))
     # plt.imshow(np.array(b))
-    cv2.imwrite(os.path.join(dst_dir, basename + '' + '.png'), np.array(b))
-
+    cv2.imwrite(os.path.join(dst_dir, basename + "" + ".png"), np.array(b))
 
 
 for indx, f in enumerate(files):
     print(indx)
     generate_gradients(f)
-
