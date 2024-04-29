@@ -1,7 +1,7 @@
 import fast
 import numpy as np
 import tensorflow as tf
-from MLD import multi_lens_distortion
+from ..augmentation.MLD import multi_lens_distortion
 
 
 def load_patch(x_start_val_lvl3, y_start_val_lvl3, filename, level, patch_size):
