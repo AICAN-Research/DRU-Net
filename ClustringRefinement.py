@@ -6,11 +6,11 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 
-# explicit function to normalize array
 def normalize(x):
-    x_norm = (x - np.min(x)) / (np.max(x) - np.min(x))
-
-    return x_norm
+    """
+    Method that normalizes an input array to range [0, 1].
+    """
+    return (x - np.min(x)) / (np.max(x) - np.min(x))
 
 
 names = glob.glob("/Path/To/Test/Thumbnails/*.png")
@@ -56,7 +56,7 @@ for name in names:
     ]  # Assuming these are your feature arrays
 
     # Apply the weights to each feature using map
-    weighted_features = list(map(lambda f, w: f * w, features, Ws))
+    weighted_features = list(map(lambda f, w: f * w, features_initial, Ws))
 
     # Stack the weighted features to create a feature vector for each pixel
     features_stacked = np.stack(weighted_features, axis=-1)
@@ -115,9 +115,7 @@ for name in names:
     Gr = cv2.medianBlur(Gr, 11)
     ret, thresh = cv2.threshold(Gr, 10, 51, cv2.THRESH_BINARY)
     # print(np.unique(thresh))
-    contours, hierarchy = cv2.findContours(
-        thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
-    )
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     empt = np.zeros(Rw2.shape)
     smoothed_image[1][thresh < 0.5] = 0
     smoothed_image[1][smoothed_image[1] > 100] = 255
