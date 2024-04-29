@@ -6,7 +6,7 @@ import onnx
 import tensorflow as tf
 import tf2onnx
 from tensorflow.keras.models import load_model
-from MLD import multi_lens_distortion
+from src.augmentation.MLD import multi_lens_distortion
 from tensorflow.keras import Input
 from tensorflow.keras import layers
 from tensorflow.keras import models

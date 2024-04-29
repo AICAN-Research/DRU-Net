@@ -6,3 +6,4 @@ matplotlib
 scikit-learn
 tf2onnx
 onnx
+Pillow
