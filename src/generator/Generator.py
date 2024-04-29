@@ -1,6 +1,7 @@
 import fast
 import numpy as np
 import tensorflow as tf
+
 from ..augmentation.MLD import multi_lens_distortion
 
 
@@ -32,9 +33,7 @@ def load_patch(x_start_val_lvl3, y_start_val_lvl3, filename, level, patch_size):
 
 
 class CustomDataGenerator(tf.keras.utils.Sequence):
-    def __init__(
-        self, starting_positions, gts, batch_size, patch_size=256, level=3
-    ):
+    def __init__(self, starting_positions, gts, batch_size, patch_size=256, level=3):
         self.starting_positions = starting_positions
         self.gts = gts
         self.batch_size = batch_size
@@ -56,21 +55,15 @@ class CustomDataGenerator(tf.keras.utils.Sequence):
         # Populate combination_indices with index values
         for i, address in enumerate(self.starting_positions):
             gt = self.gts[i]
-            cluster_label = address[
-                3
-            ]  # Extract cluster_label from starting_positions
+            cluster_label = address[3]  # Extract cluster_label from starting_positions
             self.combination_indices[(gt, cluster_label)].append(i)
 
         # Calculate the minimum count across all categories to ensure balance
-        self.min_samples = min(
-            [len(indices) for indices in self.combination_indices.values()]
-        )
+        self.min_samples = min([len(indices) for indices in self.combination_indices.values()])
 
     def __len__(self):
         # Each epoch will have a balanced set of samples across all categories
-        total_samples = self.min_samples * len(
-            self.combination_indices
-        )  # Total samples for all categories
+        total_samples = self.min_samples * len(self.combination_indices)  # Total samples for all categories
         return total_samples // self.batch_size
 
     def __getitem__(self, idx):
@@ -83,14 +76,10 @@ class CustomDataGenerator(tf.keras.utils.Sequence):
         current_batch_indices = []
 
         for category, indices in self.combination_indices.items():
-            selected_indices = np.random.choice(
-                indices, samples_per_category, replace=False
-            )
+            selected_indices = np.random.choice(indices, samples_per_category, replace=False)
             current_batch_indices.extend(selected_indices)
 
-        np.random.shuffle(
-            current_batch_indices
-        )  # Shuffle to mix the categories within the batch
+        np.random.shuffle(current_batch_indices)  # Shuffle to mix the categories within the batch
 
         for i, index in enumerate(current_batch_indices):
             position = self.starting_positions[index]
@@ -100,9 +89,7 @@ class CustomDataGenerator(tf.keras.utils.Sequence):
                 position[0],
                 position[3],
             )
-            image = load_patch(
-                x_start, y_start, filename, self.level, self.patch_size
-            )
+            image = load_patch(x_start, y_start, filename, self.level, self.patch_size)
 
             # Augmentation
             image = tf.convert_to_tensor(image, dtype=tf.float32)

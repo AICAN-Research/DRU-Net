@@ -1,8 +1,8 @@
 import os
 
 import cv2
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.cluster import KMeans
 
 
@@ -45,13 +45,9 @@ def cluster(image_path, weights=[0.6, 0.1, 0.2], fill_the_holes=True):
     dim = (width, height)
 
     # Resize image
-    resized_images = [
-        cv2.resize(img, dim, interpolation=cv2.INTER_AREA) for img in images
-    ]
+    resized_images = [cv2.resize(img, dim, interpolation=cv2.INTER_AREA) for img in images]
 
-    weighted_images = [
-        img * weight for img, weight in zip(resized_images, weights)
-    ]
+    weighted_images = [img * weight for img, weight in zip(resized_images, weights)]
 
     # Stack all images to create a feature vector for each pixel
     features = np.stack(weighted_images, axis=-1).reshape(-1, 3)
@@ -61,19 +57,13 @@ def cluster(image_path, weights=[0.6, 0.1, 0.2], fill_the_holes=True):
     labels = kmeans.fit_predict(features)
 
     # Identify the cluster that is closest to white
-    white_cluster = np.argmin(
-        np.linalg.norm(kmeans.cluster_centers_ - [1, 1, 1], axis=1)
-    )
+    white_cluster = np.argmin(np.linalg.norm(kmeans.cluster_centers_ - [1, 1, 1], axis=1))
 
     # If the white cluster is not labeled as '0', swap labels
     if white_cluster != 0:
         labels[labels == 0] = -1  # Temporary change label '0' to '-1'
-        labels[labels == white_cluster] = (
-            0  # Assign label '0' to the white cluster
-        )
-        labels[labels == -1] = (
-            white_cluster  # Assign previous '0' cluster to 'white_cluster' label
-        )
+        labels[labels == white_cluster] = 0  # Assign label '0' to the white cluster
+        labels[labels == -1] = white_cluster  # Assign previous '0' cluster to 'white_cluster' label
 
     # Reshape the labels to the image's shape
     labels_2D = labels.reshape(height, width)
@@ -98,9 +88,7 @@ def process_images(input_folder, output_folder):
 
             # Save the result
             output_path = os.path.join(output_folder, "processed_" + filename)
-            cv2.imwrite(
-                output_path, result * 255
-            )  # Scale back up to 0-255 range
+            cv2.imwrite(output_path, result * 255)  # Scale back up to 0-255 range
 
             # Optionally display the result
             plt.imshow(result)

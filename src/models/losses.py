@@ -9,9 +9,7 @@ def get_dice_loss(nb_classes=1, use_background=False):
             output1 = output[..., i]
             target1 = target[..., i]
             intersection1 = tf.reduce_sum(output1 * target1)
-            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(
-                target1 * target1
-            )
+            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(target1 * target1)
             dice += (2.0 * intersection1 + smooth) / (union1 + smooth)
         if use_background:
             dice /= nb_classes
@@ -31,9 +29,7 @@ def dsc_thresholded(nb_classes=2, use_background=False):
             output1 = output[:, :, :, i]
             target1 = target[:, :, :, i]
             intersection1 = tf.reduce_sum(output1 * target1)
-            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(
-                target1 * target1
-            )
+            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(target1 * target1)
             dice += (2.0 * intersection1 + smooth) / (union1 + smooth)
         if use_background:
             dice /= nb_classes

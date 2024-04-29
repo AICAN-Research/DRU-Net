@@ -5,17 +5,17 @@ import numpy as np
 import onnx
 import tensorflow as tf
 import tf2onnx
-from tensorflow.keras.models import load_model
-from src.augmentation.MLD import multi_lens_distortion
 from tensorflow.keras import Input
 from tensorflow.keras import layers
 from tensorflow.keras import models
-from tensorflow.keras.layers import *
+from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.utils import Sequence
 from tensorflow.python.keras.callbacks import EarlyStopping
 from tensorflow.python.keras.callbacks import ModelCheckpoint
+
+from src.augmentation.MLD import multi_lens_distortion
 
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"  # Select GPU
@@ -25,9 +25,7 @@ def build_network():
     input_image = Input(shape=(1120, 1120, 3), name="input_image")
     input_pred = Input(shape=(1120, 1120, 1), name="input_pred")
 
-    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(
-        input_pred
-    )
+    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(input_pred)
 
     combined = layers.Concatenate()([input_image, conv_pred])
 
@@ -118,9 +116,7 @@ def PreProc(img, pred, mask):
 def Augmentor(img, pred, mask):
     # Apply transformations to both the image and the mask using a fixed seed for each random operation
 
-    seed = np.random.randint(
-        0, 1e6
-    )  # Generate a common seed for this iteration
+    seed = np.random.randint(0, 1e6)  # Generate a common seed for this iteration
 
     # Random flips
     if tf.random.uniform((), seed=seed) > 0.5:
@@ -134,9 +130,7 @@ def Augmentor(img, pred, mask):
         mask = tf.image.flip_up_down(mask)
 
     if tf.random.uniform((), seed=seed) > 0.5:
-        nbr_rot = tf.random.uniform(
-            shape=[], minval=1, maxval=4, dtype=tf.int32
-        )
+        nbr_rot = tf.random.uniform(shape=[], minval=1, maxval=4, dtype=tf.int32)
         img = tf.image.rot90(img, k=nbr_rot)
         pred = tf.image.rot90(pred, k=nbr_rot)
         mask = tf.image.rot90(mask, k=nbr_rot)
@@ -145,15 +139,9 @@ def Augmentor(img, pred, mask):
     # print(img.shape)  # This should print something like (224, 224, 4) for a 4-channel image.
 
     augmented_channels = tf.image.random_hue(img, 0.08, seed=seed)
-    augmented_channels = tf.image.random_contrast(
-        augmented_channels, 0.7, 1.3, seed=seed
-    )
-    augmented_channels = tf.image.random_brightness(
-        augmented_channels, 0.2, seed=seed
-    )
-    augmented_channels = tf.image.random_saturation(
-        augmented_channels, 0.7, 1.3, seed=seed
-    )
+    augmented_channels = tf.image.random_contrast(augmented_channels, 0.7, 1.3, seed=seed)
+    augmented_channels = tf.image.random_brightness(augmented_channels, 0.2, seed=seed)
+    augmented_channels = tf.image.random_saturation(augmented_channels, 0.7, 1.3, seed=seed)
 
     distortion_seed = np.random.randint(0, 2**32 - 1)
 
@@ -180,9 +168,7 @@ def Augmentor(img, pred, mask):
 
 
 class TrainDataGenerator(Sequence):
-    def __init__(
-        self, image_dir, pred_dir, mask_dir, batch_size, augmentation=True
-    ):
+    def __init__(self, image_dir, pred_dir, mask_dir, batch_size, augmentation=True):
         self.image_dir = image_dir
         self.pred_dir = pred_dir
         self.mask_dir = mask_dir
@@ -198,9 +184,7 @@ class TrainDataGenerator(Sequence):
 
     def __getitem__(self, index):
         # Get batch of filenames
-        batch_files = self.image_filenames[
-            index * self.batch_size : (index + 1) * self.batch_size
-        ]
+        batch_files = self.image_filenames[index * self.batch_size : (index + 1) * self.batch_size]
 
         batch_imgs = []
         batch_preds = []
@@ -218,9 +202,7 @@ class TrainDataGenerator(Sequence):
             )
 
             # Check if prediction has only one channel
-            assert (
-                pred.shape[2] == 1
-            ), f"Prediction {filename} has more than one channel!"
+            assert pred.shape[2] == 1, f"Prediction {filename} has more than one channel!"
 
             # Resize prediction to match the image size
             # pred = tf.image.resize(pred, (img.shape[0], img.shape[1]))
@@ -265,9 +247,7 @@ class TrainDataGenerator(Sequence):
             batch_preds.append(pred)
             batch_masks.append(mask)
 
-        return [np.array(batch_imgs), np.array(batch_preds)], np.array(
-            batch_masks
-        )
+        return [np.array(batch_imgs), np.array(batch_preds)], np.array(batch_masks)
 
 
 batch_size = 2
@@ -295,9 +275,7 @@ def get_dice_loss(nb_classes=1, use_background=False):
             output1 = output[..., i]
             target1 = target[..., i]
             intersection1 = tf.reduce_sum(output1 * target1)
-            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(
-                target1 * target1
-            )
+            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(target1 * target1)
             dice += (2.0 * intersection1 + smooth) / (union1 + smooth)
         if use_background:
             dice /= nb_classes
@@ -318,9 +296,7 @@ def dsc_thresholded(nb_classes=2, use_background=False):
             target1 = target[:, :, :, i]
 
             intersection1 = tf.reduce_sum(output1 * target1)
-            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(
-                target1 * target1
-            )
+            union1 = tf.reduce_sum(output1 * output1) + tf.reduce_sum(target1 * target1)
             dice += (2.0 * intersection1 + smooth) / (union1 + smooth)
 
         if use_background:

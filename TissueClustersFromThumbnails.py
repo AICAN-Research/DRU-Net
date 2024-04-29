@@ -62,9 +62,7 @@ for f in files:
 
     # Apply k-means clustering on the feature vectors
     num_clusters = 7  # Define the number of clusters
-    kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(
-        feature_vectors
-    )
+    kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(feature_vectors)
     labels = kmeans.labels_
 
     # Create an image with clustering result

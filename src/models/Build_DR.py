@@ -8,9 +8,7 @@ def build_drunet():
     input_image = Input(shape=(1120, 1120, 3), name="input_image")
     input_pred = Input(shape=(1120, 1120, 1), name="input_pred")
 
-    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(
-        input_pred
-    )
+    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(input_pred)
 
     combined = layers.Concatenate()([input_image, conv_pred])
 
@@ -76,9 +74,7 @@ def build_drunet():
 
 
 def embedding_model(img_shape=(224, 224, 3)):
-    prev_model = tf.keras.applications.DenseNet121(
-        input_shape=img_shape, include_top=False, weights="imagenet"
-    )
+    prev_model = tf.keras.applications.DenseNet121(input_shape=img_shape, include_top=False, weights="imagenet")
 
     z = tf.keras.layers.Flatten()(prev_model.output)
     z = tf.keras.layers.Dense(32, activation="relu")(z)

@@ -1,19 +1,13 @@
-from keras.models import Model
-from keras.models import load_model
 from tensorflow.keras import Input
 from tensorflow.keras import layers
 from tensorflow.keras import models
-from tensorflow.keras.layers import *
-from tensorflow.keras.utils import Sequence
 
 
 def build_unet():
     input_image = Input(shape=(1120, 1120, 3), name="input_image")
     input_pred = Input(shape=(1120, 1120, 1), name="input_pred")
 
-    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(
-        input_pred
-    )
+    conv_pred = layers.Conv2D(3, (3, 3), activation="relu", padding="same")(input_pred)
 
     combined = layers.Concatenate()([input_image, conv_pred])
 

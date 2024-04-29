@@ -26,12 +26,8 @@ def generate_gradients(imgPath):
     resize_factor = 1
 
     # Calculate the new height and width as tensors based on the resize factor
-    new_height = tf.cast(
-        tf.cast(original_shape[0], tf.float32) * resize_factor, tf.int32
-    )
-    new_width = tf.cast(
-        tf.cast(original_shape[1], tf.float32) * resize_factor, tf.int32
-    )
+    new_height = tf.cast(tf.cast(original_shape[0], tf.float32) * resize_factor, tf.int32)
+    new_width = tf.cast(tf.cast(original_shape[1], tf.float32) * resize_factor, tf.int32)
 
     # Resize the image to <resize_factor> of its original size if necessary
     resized_img = tf.image.resize(img, [new_height, new_width])
@@ -46,7 +42,7 @@ def generate_gradients(imgPath):
     gx, gy = gradients[0], gradients[1]
     # Calculate the magnitude and direction of the gradient
     magnitude = tf.sqrt(tf.math.square(gx) + tf.math.square(gy))
-    direction = tf.math.atan2(gy, gx)
+    # direction = tf.math.atan2(gy, gx)
 
     # print(magnitude)
     # plt.imshow(magnitude[0,...,0]*255, cmap='gray')
