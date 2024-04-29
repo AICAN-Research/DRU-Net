@@ -1,4 +1,4 @@
-# Multi-lens Distortion
+import numpy as np
 
 
 def multi_lens_distortion(image, num_lenses, radius_range, strength_range):
