@@ -1,17 +1,17 @@
 import numpy as np
 import tensorflow as tf
 
-from ...augmentation.MLD import multi_lens_distortion
+from ..augmentation.MLD import multi_lens_distortion
 
 
-def PreProc(img, pred, mask):
+def PreProc(img, pred, mask, img_size):
     img = img / 255.0
     pred = pred / 255.0
     mask = mask / 255.0
 
-    img = tf.image.resize(img, IMG_SIZE)
-    pred = tf.image.resize(pred, IMG_SIZE)
-    mask = tf.image.resize(mask, IMG_SIZE)
+    img = tf.image.resize(img, img_size)
+    pred = tf.image.resize(pred, img_size)
+    mask = tf.image.resize(mask, img_size)
 
     mask = tf.cast(mask > 0.5, tf.float32)
 
