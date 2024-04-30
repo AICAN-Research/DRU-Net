@@ -1,6 +1,6 @@
-numpy
-tensorflow
-pyFAST
+numpy==1.26.0
+tensorflow==2.13.1
+pyFAST==4.5.0
 opencv-python
 matplotlib
 scikit-learn
