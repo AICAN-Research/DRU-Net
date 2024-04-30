@@ -1,21 +1,20 @@
 ## creating direct clusters of tissues using pretrained models
-import numpy as np
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
-
+from PIL import Image
+from sklearn.cluster import KMeans
 from tensorflow.keras.applications import VGG19
 from tensorflow.keras.preprocessing import image as img_prep
-from sklearn.cluster import KMeans
-from PIL import Image
 
 ## Select GPU
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0" 
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-files = glob.glob('/Path/To/Thumbnails/*.png')
+files = glob.glob("/Path/To/Thumbnails/*.png")
 for f in files:
     ff, _ = os.path.splitext(f)
     basename = os.path.basename(ff)
@@ -24,7 +23,10 @@ for f in files:
     image_path = f
     original_image = Image.open(image_path)
     original_image = np.array(original_image)
-    original_image = cv2.resize(original_image, (int(original_image.shape[1]/2), int(original_image.shape[0]/2)))
+    original_image = cv2.resize(
+        original_image,
+        (int(original_image.shape[1] / 2), int(original_image.shape[0] / 2)),
+    )
 
     # Define the size of the small squares
     square_size = 32
@@ -35,7 +37,7 @@ for f in files:
     num_squares_y = height // square_size
 
     # Load pre-trained model + higher level layers
-    model = VGG19(weights='imagenet', include_top=False)
+    model = VGG19(weights="imagenet", include_top=False)
 
     # Initialize an array to store feature vectors
     feature_vectors = []
@@ -44,7 +46,10 @@ for f in files:
     for i in range(num_squares_x):
         for j in range(num_squares_y):
             # Extract small square from original image
-            square = original_image[i*square_size:(i+1)*square_size, j*square_size:(j+1)*square_size]
+            square = original_image[
+                i * square_size : (i + 1) * square_size,
+                j * square_size : (j + 1) * square_size,
+            ]
             # Preprocess the square
             square = img_prep.img_to_array(square)
             square = np.expand_dims(square, axis=0)
@@ -64,9 +69,11 @@ for f in files:
     clustered_image = np.zeros_like(original_image)
     for i in range(num_squares_x):
         for j in range(num_squares_y):
-            label = labels[i*num_squares_y + j]
+            label = labels[i * num_squares_y + j]
             color = np.array(plt.cm.rainbow(label / num_clusters)[:3]) * 255
-            clustered_image[i*square_size:(i+1)*square_size, j*square_size:(j+1)*square_size] = color
+            clustered_image[
+                i * square_size : (i + 1) * square_size,
+                j * square_size : (j + 1) * square_size,
+            ] = color
 
-    cv2.imwrite('/Path/To/Outputs/'+ basename + '.png',clustered_image)
-
+    cv2.imwrite("/Path/To/Outputs/" + basename + ".png", clustered_image)

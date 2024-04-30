@@ -1,14 +1,15 @@
-import cv2
-import os
 import glob
-import tensorflow as tf
+import os
+
+import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 
 dst_dir = "Path/To/Gradients/Reults/"
 os.makedirs(dst_dir, exist_ok=True)
 
-files = glob.glob('Path/To/Thumbnails/*.png')
+files = glob.glob("Path/To/Thumbnails/*.png")
 # files2 = glob.glob('D:/Bergens/resized2/*.jpg')
 
 
@@ -41,7 +42,7 @@ def generate_gradients(imgPath):
     gx, gy = gradients[0], gradients[1]
     # Calculate the magnitude and direction of the gradient
     magnitude = tf.sqrt(tf.math.square(gx) + tf.math.square(gy))
-    direction = tf.math.atan2(gy, gx)
+    # direction = tf.math.atan2(gy, gx)
 
     # print(magnitude)
     # plt.imshow(magnitude[0,...,0]*255, cmap='gray')
@@ -51,23 +52,20 @@ def generate_gradients(imgPath):
     # plt.imshow(gy[0,...,1], cmap='gray')
     # plt.imshow(direction[0,...,2], cmap='gray')
 
-    a = magnitude[0,...,1]/tf.math.reduce_max(magnitude[0,...,1])
+    a = magnitude[0, ..., 1] / tf.math.reduce_max(magnitude[0, ..., 1])
 
-    plt.axis('off')
+    plt.axis("off")
     root, ext = os.path.splitext(f)
     basename = os.path.basename(root)
 
     b = np.array(a)
-    b *= 255.0/b.max() 
-
+    b *= 255.0 / b.max()
 
     print(type(b))
     # plt.imshow(np.array(b))
-    cv2.imwrite(os.path.join(dst_dir, basename + '' + '.png'), np.array(b))
-
+    cv2.imwrite(os.path.join(dst_dir, basename + "" + ".png"), np.array(b))
 
 
 for indx, f in enumerate(files):
     print(indx)
     generate_gradients(f)
-
