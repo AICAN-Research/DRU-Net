@@ -1,4 +1,17 @@
-# DRU-Net
+<div align="center">
+<h1 align="center">🫁 DRU-Net </h1>
+<h3 align="center">Lung carcinoma segmentation using multi-lens distortion and fusion refinement network</h3>
+
+[![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/AICAN-Research/DRU-Net/blob/main/LICENSE.md)
+[![CI/CD](https://github.com/AICAN-Research/DRU-Net/actions/workflows/deploy.yml/badge.svg)](https://github.com/AICAN-Research/DRU-Net/actions/workflows/linting.yml)
+<a target="_blank" href="https://huggingface.co/spaces/andreped/AeroPath"><img src="https://img.shields.io/badge/🤗%20Hugging%20Face-Spaces-yellow.svg"></a>
+<a href="https://github.com/AICAN-Research/DRU-Net/blob/main/notebooks/TrainingOnWSIPatches.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+[![arXiv preprint](https://img.shields.io/badge/arXiv-preprint-D12424)](
+https://doi.org/10.48550/arXiv.2406.14287)
+
+**DRU-Net** was developed the AICAN research group.
+
+</div>
 
 ## Introduction
 
