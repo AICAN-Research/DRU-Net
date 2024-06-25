@@ -3,7 +3,7 @@
 <h3 align="center">Segmentation of Non-Small Cell Lung Carcinomas
 </h3>
 
-[![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/AICAN-Research/DRU-Net/blob/main/LICENSE.md)
+[![license](https://img.shields.io/badge/MIT-License-008000)](https://github.com/AICAN-Research/DRU-Net/blob/main/LICENSE.md)
 <a href="https://github.com/AICAN-Research/DRU-Net/blob/main/notebooks/TrainingOnWSIPatches.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 [![arXiv preprint](https://img.shields.io/badge/arXiv-preprint-D12424)](
 https://doi.org/10.48550/arXiv.2406.14287)
