@@ -1,6 +1,7 @@
 <div align="center">
 <h1 align="center">🫁 DRU-Net </h1>
-<h3 align="center">Lung carcinoma segmentation using multi-lens distortion and fusion refinement network</h3>
+<h3 align="center">Segmentation of Non-Small Cell Lung Carcinomas
+</h3>
 
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/AICAN-Research/DRU-Net/blob/main/LICENSE.md)
 [![CI/CD](https://github.com/AICAN-Research/DRU-Net/actions/workflows/deploy.yml/badge.svg)](https://github.com/AICAN-Research/DRU-Net/actions/workflows/linting.yml)
@@ -15,7 +16,7 @@ https://doi.org/10.48550/arXiv.2406.14287)
 
 ## Introduction
 
-This project presents DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network.
+This repository contains the source code related to the manuscript _"DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network"_ which is openly available on [arXiv](https://arxiv.org/abs/2406.14287).
 
 ## Getting started
 
