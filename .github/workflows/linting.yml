@@ -20,7 +20,7 @@ jobs:
           python-version: "3.8"
 
       - name: Install lint dependencies
-        run: pip install wheel setuptools black==22.3.0 isort==5.10.1 flake8==4.0.1
+        run: pip install wheel setuptools isort==5.10.1 flake8==4.0.1 black==22.3.0 "black[jupyter]"
 
       - name: Lint the code
         run: sh shell/lint.sh
