@@ -1,17 +1,17 @@
 import os
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-from scipy.spatial.distance import cdist
-from sklearn.metrics import silhouette_score
 import random
+
+import numpy as np
+from sklearn.metrics import silhouette_score
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.preprocessing import image
+
 
 class ImageProcessor:
     def __init__(self, image_directory):
         self.image_directory = image_directory
-        self.model = MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
+        self.model = MobileNetV2(weights="imagenet", include_top=False, pooling="avg")
 
     def load_and_preprocess_image(self, img_path):
         img = image.load_img(img_path, target_size=(224, 224))
@@ -29,6 +29,7 @@ class ImageProcessor:
             filenames.append(filename)
         return np.array(features), filenames
 
+
 class GeneticAlgorithm:
     def __init__(self, population_size, generations, mutation_rate, max_clusters):
         self.population_size = population_size
@@ -37,7 +38,10 @@ class GeneticAlgorithm:
         self.max_clusters = max_clusters
 
     def initialize_population(self, num_images):
-        return [np.random.randint(1, min(i + 2, self.max_clusters + 1), size=num_images) for i in range(self.population_size)]
+        return [
+            np.random.randint(1, min(i + 2, self.max_clusters + 1), size=num_images)
+            for i in range(self.population_size)
+        ]
 
     def fitness(self, individual, features):
         try:
@@ -62,7 +66,7 @@ class GeneticAlgorithm:
         for generation in range(self.generations):
             fitness_scores = [self.fitness(ind, features) for ind in population]
             sorted_indices = np.argsort(fitness_scores)
-            best_individuals = [population[idx] for idx in sorted_indices[-(self.population_size // 2):]]
+            best_individuals = [population[idx] for idx in sorted_indices[-(self.population_size // 2) :]]
 
             next_generation = best_individuals[:]
             while len(next_generation) < self.population_size:
@@ -77,6 +81,7 @@ class GeneticAlgorithm:
 
         return max(population, key=lambda ind: self.fitness(ind, features))
 
+
 class ImageClassifier:
     def __init__(self, image_directory, output_file):
         self.processor = ImageProcessor(image_directory)
@@ -89,11 +94,11 @@ class ImageClassifier:
         self.output_classification(optimal_classes, filenames)
 
     def output_classification(self, classes, filenames):
-        with open(self.output_file, 'w') as file:
+        with open(self.output_file, "w") as file:
             for filename, cluster in zip(filenames, classes):
                 file.write(f"{filename}, {cluster}\n")
 
 
 if __name__ == "__main__":
-    classifier = ImageClassifier('path_to_images', 'output.txt')
+    classifier = ImageClassifier("path_to_images", "output.txt")
     classifier.run()
