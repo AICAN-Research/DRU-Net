@@ -56,7 +56,7 @@ pip install -r requirements.txt
 # Development
 
 ## Automatic training with whole tumor annotation (WTA)
-For this approach, after creating thumbnails of your WSIs, you need to create tissue clusters for balancing the data between various tissue types. For implementation details, see the comments in [ClusteringForTissueBalancing.py](ClusteringForTissueBalancing.py).
+For this approach, after creating thumbnails of your WSIs, you need to create tissue clusters for balancing the data between various tissue types. For implementation details, see [ClusteringForTissueBalancing.py](ClusteringForTissueBalancing.py).
 You also need to create gradients which will be used to create a reliable tissue mask and for clustering in later codes [GenerateGradients.py](GenerateGradients.py).
 Before training, we also need to create positions of the patches in WSIs. To generate related patches and their labels you can use npy files or rgb image formats and save the annotation mask. In our code, annotation masks are saved as images and are used for label extraction linked with the patch position. For implementation see [PatchPositions.ipynb](notebooks/PatchPositions.ipynb).
 Finally, you can train your model using a code similar to [TrainingOnWSIPatches.ipynb](notebooks/TrainingOnWSIPatches.ipynb).
