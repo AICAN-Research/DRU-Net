@@ -67,6 +67,32 @@ In this method, you need to save images from areas of interest and then train th
 You can also use a few-shot learning method [FewShot.py](./FewShot.py) and optimize for the number of classes using our novel optimization method using [FindOptimumNumberOfClasses.py](FindOptimumNumberOfClasses.py).
 
 
+<details>
+<summary>
+
+## Linting</summary>
+
+First install linting dependencies:
+
+```
+pip install isort==5.10.1 flake8==4.0.1 black==22.3.0 "black[jupyter]"
+```
+
+Then run linting test by:
+
+```
+sh shell/lint.sh
+```
+
+Perform automatic linting by:
+
+```
+sh shell/format.sh
+```
+
+</details>
+
+
 ## Citation
 
 If you found the source code or manuscript relevant in your research, please cite the following reference:
