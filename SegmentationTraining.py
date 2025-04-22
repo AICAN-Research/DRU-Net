@@ -148,19 +148,19 @@ def Augmentor(img, pred, mask):
     # Apply multi_lens_distortion to both the image and the mask
     img = tf.numpy_function(
         multi_lens_distortion,
-        [img, 6, (300, 500), (-0.3, 0.5), distortion_seed],
+        [img, 6, (300, 500), (-0.4, 0.4), distortion_seed],
         tf.float32,
     )
 
     pred = tf.numpy_function(
         multi_lens_distortion,
-        [pred, 6, (300, 500), (-0.3, 0.5), distortion_seed],
+        [pred, 6, (300, 500), (-0.4, 0.4), distortion_seed],
         tf.float32,
     )
 
     mask = tf.numpy_function(
         multi_lens_distortion,
-        [mask, 6, (300, 500), (-0.3, 0.5), distortion_seed],
+        [mask, 6, (300, 500), (-0.4, 0.4), distortion_seed],
         tf.float32,
     )
 
