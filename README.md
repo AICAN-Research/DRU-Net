@@ -5,8 +5,6 @@
 
 [![license](https://img.shields.io/badge/MIT-License-008000)](https://github.com/AICAN-Research/DRU-Net/blob/main/LICENSE.md)
 <a href="https://github.com/AICAN-Research/DRU-Net/blob/main/notebooks/TrainingOnWSIPatches.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-[![arXiv preprint](https://img.shields.io/badge/arXiv-preprint-D12424)](
-https://doi.org/10.48550/arXiv.2406.14287)
 
 **DRU-Net** was developed by the AICAN research group.
 
@@ -14,7 +12,7 @@ https://doi.org/10.48550/arXiv.2406.14287)
 
 # Introduction
 
-This repository contains the source code related to the manuscript _"DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network"_ which is openly available on [arXiv](https://arxiv.org/abs/2406.14287).
+This repository contains the source code related to the manuscript _"DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network"_ which is openly available [here]([https://arxiv.org/abs/2406.14287](https://www.mdpi.com/2313-433X/11/5/166)).
 
 ## A brief introduction to the DRU-Net model
 The DRU-Net is an innovative artificial intelligence model designed for the segmentation of non-small cell lung carcinomas (NSCLCs) from whole slide images (WSIs). This model enhances the automated analysis of histopathological images, assisting pathologists by improving the speed and accuracy of cancer diagnosis.
