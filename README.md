@@ -12,7 +12,7 @@
 
 # Introduction
 
-This repository contains the source code related to the manuscript _"DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network"_ which is openly available [here]([https://arxiv.org/abs/2406.14287](https://www.mdpi.com/2313-433X/11/5/166)).
+This repository contains the source code related to the manuscript _"DRU-Net: Lung carcinoma segmentation using multi-lens distortion and fusion refinement network"_ which is openly available [here](https://www.mdpi.com/2313-433X/11/5/166).
 
 ## A brief introduction to the DRU-Net model
 The DRU-Net is an innovative artificial intelligence model designed for the segmentation of non-small cell lung carcinomas (NSCLCs) from whole slide images (WSIs). This model enhances the automated analysis of histopathological images, assisting pathologists by improving the speed and accuracy of cancer diagnosis.
