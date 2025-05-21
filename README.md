@@ -98,12 +98,17 @@ sh shell/format.sh
 If you found the source code or manuscript relevant in your research, please cite the following reference:
 
 ```
-@misc{oskouei2024segmentation,
-    title={{Segmentation of Non-Small Cell Lung Carcinomas: Introducing DRU-Net and Multi-Lens Distortion}}, 
-    author={Soroush Oskouei and Marit Valla and André Pedersen and Erik Smistad and Vibeke Grotnes Dale and Maren Høibø and Sissel Gyrid Freim Wahl and Mats Dehli Haugum and Thomas Langø and Maria Paula Ramnefjell and Lars Andreas Akslen and Gabriel Kiss and Hanne Sorger},
-    year={2024},
-    eprint={2406.14287},
-    archivePrefix={arXiv},
-    doi={10.48550/arXiv.2406.14287}
+@Article{jimaging11050166,
+AUTHOR = {Oskouei, Soroush and Valla, Marit and Pedersen, André and Smistad, Erik and Dale, Vibeke Grotnes and Høibø, Maren and Wahl, Sissel Gyrid Freim and Haugum, Mats Dehli and Langø, Thomas and Ramnefjell, Maria Paula and Akslen, Lars Andreas and Kiss, Gabriel and Sorger, Hanne},
+TITLE = {Segmentation of Non-Small Cell Lung Carcinomas: Introducing DRU-Net and Multi-Lens Distortion},
+JOURNAL = {Journal of Imaging},
+VOLUME = {11},
+YEAR = {2025},
+NUMBER = {5},
+ARTICLE-NUMBER = {166},
+URL = {https://www.mdpi.com/2313-433X/11/5/166},
+ISSN = {2313-433X},
+ABSTRACT = {The increased workload in pathology laboratories today means automated tools such as artificial intelligence models can be useful, helping pathologists with their tasks. In this paper, we propose a segmentation model (DRU-Net) that can provide a delineation of human non-small cell lung carcinomas and an augmentation method that can improve classification results. The proposed model is a fused combination of truncated pre-trained DenseNet201 and ResNet101V2 as a patch-wise classifier, followed by a lightweight U-Net as a refinement model. Two datasets (Norwegian Lung Cancer Biobank and Haukeland University Lung Cancer cohort) were used to develop the model. The DRU-Net model achieved an average of 0.91 Dice similarity coefficient. The proposed spatial augmentation method (multi-lens distortion) improved the Dice similarity coefficient from 0.88 to 0.91. Our findings show that selecting image patches that specifically include regions of interest leads to better results for the patch-wise classifier compared to other sampling methods. A qualitative analysis by pathology experts showed that the DRU-Net model was generally successful in tumor detection. Results in the test set showed some areas of false-positive and false-negative segmentation in the periphery, particularly in tumors with inflammatory and reactive changes. In summary, the presented DRU-Net model demonstrated the best performance on the segmentation task, and the proposed augmentation technique proved to improve the results.},
+DOI = {10.3390/jimaging11050166}
 }
 ```
